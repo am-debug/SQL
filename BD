@@ -1,0 +1,298 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  mar. 19 mai 2020 à 21:53
+-- Version du serveur :  5.7.24
+-- Version de PHP :  7.2.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données :  `projetsa`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `chambre`
+--
+
+DROP TABLE IF EXISTS `chambre`;
+CREATE TABLE IF NOT EXISTS `chambre` (
+  `NUMCHAMBRE` int(11) NOT NULL AUTO_INCREMENT,
+  `CATEGORIE` varchar(70) DEFAULT NULL,
+  `TYPE` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`NUMCHAMBRE`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `chambre`
+--
+
+INSERT INTO `chambre` (`NUMCHAMBRE`, `CATEGORIE`, `TYPE`) VALUES
+(1, 'c1', 't1'),
+(2, 'c2', 't2'),
+(3, 'c3', 't3'),
+(4, 'c4', 't4'),
+(5, 'c3', 't3'),
+(6, 'c4', 't4'),
+(7, 'c5', 't5'),
+(8, 'c6', 't6'),
+(9, 'c7', 't7'),
+(10, 'c8', 't8'),
+(11, 'c9', 't9');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `departement`
+--
+
+DROP TABLE IF EXISTS `departement`;
+CREATE TABLE IF NOT EXISTS `departement` (
+  `NUMDEPARTEMEN` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`NUMDEPARTEMEN`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `departement`
+--
+
+INSERT INTO `departement` (`NUMDEPARTEMEN`, `NOM`) VALUES
+(1, 'd1'),
+(2, 'd2'),
+(3, 'd3'),
+(4, 'd4');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `distribuer`
+--
+
+DROP TABLE IF EXISTS `distribuer`;
+CREATE TABLE IF NOT EXISTS `distribuer` (
+  `NUMDEPARTEMEN` int(11) NOT NULL,
+  `NUMFEUILLE` int(11) NOT NULL,
+  PRIMARY KEY (`NUMDEPARTEMEN`,`NUMFEUILLE`),
+  KEY `FK_DISTRIBUER` (`NUMFEUILLE`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `feuiledevolution`
+--
+
+DROP TABLE IF EXISTS `feuiledevolution`;
+CREATE TABLE IF NOT EXISTS `feuiledevolution` (
+  `NUMFEUILLE` int(11) NOT NULL AUTO_INCREMENT,
+  `NUMMALADE` int(11) NOT NULL,
+  `DATE` date DEFAULT NULL,
+  `etat` varchar(70) NOT NULL,
+  PRIMARY KEY (`NUMFEUILLE`),
+  KEY `FK_POSSEDER` (`NUMMALADE`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `feuiledevolution`
+--
+
+INSERT INTO `feuiledevolution` (`NUMFEUILLE`, `NUMMALADE`, `DATE`, `etat`) VALUES
+(1, 11, '2020-05-05', 'ca n\'avance pas'),
+(2, 2, '2020-06-17', 'mieu'),
+(3, 3, '2020-06-17', 'stable');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `interner`
+--
+
+DROP TABLE IF EXISTS `interner`;
+CREATE TABLE IF NOT EXISTS `interner` (
+  `NUMDEPARTEMEN` int(11) NOT NULL,
+  `NUMMALADE` int(11) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`NUMDEPARTEMEN`,`NUMMALADE`),
+  KEY `FK_INTERNER` (`NUMMALADE`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `interner`
+--
+
+INSERT INTO `interner` (`NUMDEPARTEMEN`, `NUMMALADE`, `date`) VALUES
+(2, 7, '2012-04-22'),
+(1, 1, '2012-04-22');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `lit`
+--
+
+DROP TABLE IF EXISTS `lit`;
+CREATE TABLE IF NOT EXISTS `lit` (
+  `NUMLIT` int(11) NOT NULL AUTO_INCREMENT,
+  `NUMCHAMBRE` int(11) NOT NULL,
+  PRIMARY KEY (`NUMLIT`),
+  KEY `FK_SETROUVE` (`NUMCHAMBRE`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `lit`
+--
+
+INSERT INTO `lit` (`NUMLIT`, `NUMCHAMBRE`) VALUES
+(1, 1),
+(3, 4),
+(4, 1),
+(21, 2),
+(2, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `malade`
+--
+
+DROP TABLE IF EXISTS `malade`;
+CREATE TABLE IF NOT EXISTS `malade` (
+  `NUMMALADE` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(70) DEFAULT NULL,
+  `ADRESSE` varchar(70) DEFAULT NULL,
+  `SEXE` varchar(70) DEFAULT NULL,
+  `DATE_DE_NAISSANCE_` date DEFAULT NULL,
+  `LIEUNAISSANCE` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`NUMMALADE`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `malade`
+--
+
+INSERT INTO `malade` (`NUMMALADE`, `NOM`, `ADRESSE`, `SEXE`, `DATE_DE_NAISSANCE_`, `LIEUNAISSANCE`) VALUES
+(1, 'laye', 'Keur massar', 'masculin', '2020-05-19', 'pikine'),
+(2, 'rassoul', 'patte d\'oie', 'maulin', '2020-05-08', 'dakar'),
+(3, 'diopsy', 'soprim', 'masculin', '2020-02-19', 'dakar'),
+(4, 'fama', 'patte d\'oie', 'feminin', '2020-02-14', 'dakar'),
+(5, 'fatou', 'soprim', 'femin', '2020-05-26', 'dakar'),
+(6, 'lamane', 'louga', 'masculin', '2020-05-27', 'dakar'),
+(7, 'mami', 'parcelle', 'feminin', '2012-04-22', 'dakar'),
+(8, 'lamane', 'louga', 'masculin', '2020-05-27', 'dakar'),
+(9, 'mimi', 'scat urbam', 'feminin', '2020-05-27', 'dakar'),
+(10, 'anta', 'soprim', 'feminin', '2020-05-27', 'grand yoff'),
+(11, 'fallou', 'kolda', 'masculin', '2020-12-16', 'fouta'),
+(16, 'khadija', 'Keur massar', 'feminin', '2020-06-10', 'dakar');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `medecin`
+--
+
+DROP TABLE IF EXISTS `medecin`;
+CREATE TABLE IF NOT EXISTS `medecin` (
+  `NUMMEDCIN` int(11) NOT NULL AUTO_INCREMENT,
+  `NUMDEPARTEMEN` int(11) NOT NULL,
+  `NUMSPECIALITE` int(11) NOT NULL,
+  `NOM` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`NUMMEDCIN`),
+  KEY `FK_SPECIALISE` (`NUMSPECIALITE`),
+  KEY `FK_TRAVAIL` (`NUMDEPARTEMEN`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `medecin`
+--
+
+INSERT INTO `medecin` (`NUMMEDCIN`, `NUMDEPARTEMEN`, `NUMSPECIALITE`, `NOM`) VALUES
+(1, 1, 1, 'M3'),
+(2, 2, 2, 'amina');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `occupe`
+--
+
+DROP TABLE IF EXISTS `occupe`;
+CREATE TABLE IF NOT EXISTS `occupe` (
+  `NUMMALADE` int(11) NOT NULL,
+  `NUMLIT` int(11) NOT NULL,
+  `DATE` date DEFAULT NULL,
+  PRIMARY KEY (`NUMMALADE`,`NUMLIT`),
+  KEY `FK_OCCUPE` (`NUMLIT`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `occupe`
+--
+
+INSERT INTO `occupe` (`NUMMALADE`, `NUMLIT`, `DATE`) VALUES
+(1, 1, '2020-05-06'),
+(2, 2, '2020-05-26');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `specialite`
+--
+
+DROP TABLE IF EXISTS `specialite`;
+CREATE TABLE IF NOT EXISTS `specialite` (
+  `NUMSPECIALITE` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(70) NOT NULL,
+  PRIMARY KEY (`NUMSPECIALITE`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `specialite`
+--
+
+INSERT INTO `specialite` (`NUMSPECIALITE`, `nom`) VALUES
+(1, 'S1'),
+(2, 'S2');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `suivre`
+--
+
+DROP TABLE IF EXISTS `suivre`;
+CREATE TABLE IF NOT EXISTS `suivre` (
+  `NUMMEDCIN` int(11) NOT NULL,
+  `NUMDEPARTEMEN` int(11) NOT NULL,
+  `NUMMALADE` int(11) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`NUMMEDCIN`,`NUMDEPARTEMEN`,`NUMMALADE`),
+  KEY `FK_SUIVRE` (`NUMMALADE`),
+  KEY `FK_SUIVRE3` (`NUMDEPARTEMEN`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `suivre`
+--
+
+INSERT INTO `suivre` (`NUMMEDCIN`, `NUMDEPARTEMEN`, `NUMMALADE`, `date`) VALUES
+(1, 1, 1, '2020-05-05'),
+(2, 2, 2, '2020-05-06');
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
